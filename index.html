@@ -1,163 +1,74 @@
 <script>
-    // Configuración de tu API de OpenAI
     const API_URL = "https://api.openai.com/v1/chat/completions"; 
-    // Reemplaza el texto de abajo por tu clave real (ej: "sk-proj-...")
-    const API_KEY = "<script>
-    // Configuración de tu API de OpenAI
-    const API_URL = "https://api.openai.com/v1/chat/completions"; 
-    // Reemplaza el texto de abajo por tu clave real (ej: "sk-proj-...")
-    const API_KEY = "TU_API_KEY_DE_OPENAI_AQUÍ"; 
+    const API_KEY = "TU_API_KEY_AQUÍ"; 
 
-    async function obtenerFeedback() {
-        const textoAlumno = document.getElementById('textoEscritura').value;
-        const cuadro = document.getElementById('cuadroFeedback');
-        const contenido = document.getElementById('contenidoFeedback');
+    async function obtenerFeedback() { 
+        const textoAlumno = document.getElementById('textoEscritura').value; 
+        const cuadro = document.getElementById('cuadroFeedback'); 
+        const contenido = document.getElementById('contenidoFeedback'); 
+        
+        if (textoAlumno.trim() === "") { 
+            alert("¡Escribe tu texto antes de pedirle consejos al Entrenador IA!"); 
+            return; 
+        } 
+        
+        // Mostrar cuadro de carga 
+        cuadro.style.display = "block"; 
+        contenido.innerHTML = "El entrenador está leyendo tu texto... ¡Espera un momento! 🏃‍♂️💨"; 
 
-        if (textoAlumno.trim() === "") {
-            alert("¡Escribe tu texto antes de pedirle consejos al Entrenador IA!");
-            return;
-        }
+        // Instrucciones pedagógicas para la IA 
+        const promptSistema = `Eres un entrenador deportivo virtual y profesor de lenguaje para niños chilenos de 5° básico (10-11 años). El niño te enviará un texto breve comparando dos deportes. Tu tarea es: 1. Saludarlo con entusiasmo deportivo (usa emojis como ⚽, 🏆, 👟). 2. Revisar si usó adjetivos calificativos comunes. 3. Revisar si usó adjetivos comparativos (más... que, menos... que, tan... como). 4. Darle un consejo amigable si le falta algo, de forma muy motivadora. ¡No le des la respuesta hecha, guíalo! Mantén el texto corto (máximo 3 o 4 líneas) y con un lenguaje muy cercano y positivo.`; 
 
-        // Mostrar cuadro de carga
-        cuadro.style.display = "block";
-        contenido.innerHTML = "<em>El entrenador está leyendo tu texto... ¡Espera un momento! 🏃‍♂️💨</em>";
+        try { 
+            // Llamada oficial a la API de OpenAI 
+            const response = await fetch(API_URL, { 
+                method: 'POST', 
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${API_KEY}` 
+                }, 
+                body: JSON.stringify({ 
+                    model: "gpt-4o-mini", 
+                    messages: [ 
+                        { role: "system", content: promptSistema }, 
+                        { role: "user", content: `Este es mi texto: "${textoAlumno}"` } 
+                    ], 
+                    temperature: 0.7 
+                }) 
+            }); 
 
-        // Instrucciones pedagógicas para la IA
-        const promptSistema = `Eres un entrenador deportivo virtual y profesor de lenguaje para niños chilenos de 5° básico (10-11 años). 
-        El niño te enviará un texto breve comparando dos deportes. 
-        Tu tarea es:
-        1. Saludarlo con entusiasmo deportivo (usa emojis como ⚽, 🏆, 👟).
-        2. Revisar si usó adjetivos calificativos comunes.
-        3. Revisar si usó adjetivos comparativos (más... que, menos... que, tan... como).
-        4. Darle un consejo amigable si le falta algo, de forma muy motivadora. ¡No le des la respuesta hecha, guíalo!
-        Mantén el texto corto (máximo 3 o 4 líneas) y con un lenguaje muy cercano y positivo.`;
+            if (!response.ok) { 
+                throw new Error("Error en la respuesta de la API"); 
+            } 
 
-        try {
-            // Llamada oficial a la API de OpenAI
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-4o-mini", // El modelo más eficiente y rápido para esto
-                    messages: [
-                        { role: "system", content: promptSistema },
-                        { role: "user", content: `Este es mi texto: "${textoAlumno}"` }
-                    ],
-                    temperature: 0.7
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error("Error en la respuesta de la API");
-            }
-
-            const data = await response.json();
-            
-            // Extraer la respuesta del formato oficial de OpenAI
+            const data = await response.json(); 
+            // Extraer la respuesta del formato oficial de OpenAI 
             const feedbackIA = data.choices[0].message.content; 
+            // Mostrar el feedback en la pantalla 
+            contenido.innerText = feedbackIA; 
 
-            // Mostrar el feedback en la pantalla
-            contenido.innerText = feedbackIA;
+        } catch (error) { 
+            console.error("Error completo:", error); 
+            contenido.innerHTML = "⚠️ ¡Uy! El entrenador se tropezó en la cancha. Inténtalo de nuevo en unos momentos o descarga tu tarea directamente."; 
+        } 
+    } 
 
-        } catch (error) {
-            console.error("Error completo:", error);
-            contenido.innerHTML = "<span style='color: red;'>⚠️ ¡Uy! El entrenador se tropezó en la cancha. Inténtalo de nuevo en unos momentos o descarga tu tarea directamente.</span>";
-        }
-    }
-
-    // Función para descargar el archivo .txt para Google Classroom
-    function descargarTexto() {
-        const texto = document.getElementById('textoEscritura').value;
-        if (texto.trim() === "") {
-            alert("¡El bloc de notas está vacío! Escribe tu texto antes de guardarlo.");
-            return;
-        }
-        const blob = new Blob([texto], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Mi_Tarea_Deportiva_5Basico.txt';
-        a.click();
-        URL.revokeObjectURL(url);
-    }
-</script>"; 
-
-    async function obtenerFeedback() {
-        const textoAlumno = document.getElementById('textoEscritura').value;
-        const cuadro = document.getElementById('cuadroFeedback');
-        const contenido = document.getElementById('contenidoFeedback');
-
-        if (textoAlumno.trim() === "") {
-            alert("¡Escribe tu texto antes de pedirle consejos al Entrenador IA!");
-            return;
-        }
-
-        // Mostrar cuadro de carga
-        cuadro.style.display = "block";
-        contenido.innerHTML = "<em>El entrenador está leyendo tu texto... ¡Espera un momento! 🏃‍♂️💨</em>";
-
-        // Instrucciones pedagógicas para la IA
-        const promptSistema = `Eres un entrenador deportivo virtual y profesor de lenguaje para niños chilenos de 5° básico (10-11 años). 
-        El niño te enviará un texto breve comparando dos deportes. 
-        Tu tarea es:
-        1. Saludarlo con entusiasmo deportivo (usa emojis como ⚽, 🏆, 👟).
-        2. Revisar si usó adjetivos calificativos comunes.
-        3. Revisar si usó adjetivos comparativos (más... que, menos... que, tan... como).
-        4. Darle un consejo amigable si le falta algo, de forma muy motivadora. ¡No le des la respuesta hecha, guíalo!
-        Mantén el texto corto (máximo 3 o 4 líneas) y con un lenguaje muy cercano y positivo.`;
-
-        try {
-            // Llamada oficial a la API de OpenAI
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-4o-mini", // El modelo más eficiente y rápido para esto
-                    messages: [
-                        { role: "system", content: promptSistema },
-                        { role: "user", content: `Este es mi texto: "${textoAlumno}"` }
-                    ],
-                    temperature: 0.7
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error("Error en la respuesta de la API");
-            }
-
-            const data = await response.json();
-            
-            // Extraer la respuesta del formato oficial de OpenAI
-            const feedbackIA = data.choices[0].message.content; 
-
-            // Mostrar el feedback en la pantalla
-            contenido.innerText = feedbackIA;
-
-        } catch (error) {
-            console.error("Error completo:", error);
-            contenido.innerHTML = "<span style='color: red;'>⚠️ ¡Uy! El entrenador se tropezó en la cancha. Inténtalo de nuevo en unos momentos o descarga tu tarea directamente.</span>";
-        }
-    }
-
-    // Función para descargar el archivo .txt para Google Classroom
-    function descargarTexto() {
-        const texto = document.getElementById('textoEscritura').value;
-        if (texto.trim() === "") {
-            alert("¡El bloc de notas está vacío! Escribe tu texto antes de guardarlo.");
-            return;
-        }
-        const blob = new Blob([texto], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Mi_Tarea_Deportiva_5Basico.txt';
-        a.click();
-        URL.revokeObjectURL(url);
+    // Función para descargar el archivo .txt para Google Classroom 
+    function descargarTexto() { 
+        const texto = document.getElementById('textoEscritura').value; 
+        if (texto.trim() === "") { 
+            alert("¡El bloc de notas está vacío! Escribe tu texto antes de guardarlo."); 
+            return; 
+        } 
+        const blob = new Blob([texto], { type: 'text/plain' }); 
+        const url = URL.createObjectURL(blob); 
+        const a = document.createElement('a'); 
+        a.href = url; 
+        a.download = 'Mi_Tarea_Deportiva_5Basico.txt'; 
+        a.click(); 
+        URL.revokeObjectURL(url); 
     }
 </script>
+
+</body>
+</html>
