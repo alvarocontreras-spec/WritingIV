@@ -135,6 +135,13 @@
             border-left: 6px solid var(--ai-blue); margin-bottom: 20px;
         }
 
+        .feedback-guide {
+            background: #f0fdf4; padding: 15px; border-radius: 12px;
+            margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #bbf7d0;
+        }
+        .feedback-guide h4 { margin-top: 0; color: #166534; }
+        .feedback-guide ul { margin: 0; padding-left: 20px; color: #14532d; line-height: 1.6; }
+
         .review-text {
             background: white; padding: 20px; border-radius: 12px;
             border: 1px solid #e2e8f0; margin: 15px 0;
@@ -247,6 +254,16 @@
             <strong>Student:</strong> <span id="revName"></span> | <strong>Class:</strong> <span id="revClass"></span>
         </div>
 
+        <div class="feedback-guide">
+            <h4>📋 Checklist - Review your text:</h4>
+            <ul>
+                <li>✅ I use at least 2 verbs.</li>
+                <li>✅ I use at least 2 adjectives.</li>
+                <li>✅ I use 2 connectors.</li>
+                <li>✅ I write in Simple Present.</li>
+            </ul>
+        </div>
+
         <div class="ai-feedback-box" id="aiBox" style="display: none;">
             <h4 style="margin-top:0; color: var(--ai-blue); display: flex; align-items: center; gap: 8px;">🤖 Coach Feedback:</h4>
             <p id="aiFeedbackContent" style="margin: 0; white-space: pre-wrap; font-size: 0.95rem; color: #1e293b;"></p>
@@ -272,8 +289,8 @@
 </div>
 
 <script>
-    // TU NUEVA URL DE GOOGLE APPS SCRIPT TOTALMENTE OPERATIVA
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwY17Z8_9yiVG_Jn0NKem4oy8dc8NhMd3IGtIgMfGAPwe7jgN8uylfEohcj_59_frhn/exec";
+    // URL DE TU ÚLTIMA IMPLEMENTACIÓN DE GOOGLE APPS SCRIPT
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLPZ2SRskAZw-nD_aZO6GWRxf1OaCmsDjPIwAKC64R9utsXLWqv3OkX6pLyybYdL0a/exec";
 
     window.onload = function() {
         if (localStorage.getItem("sport_writing_submitted_2026") === "true") {
@@ -351,7 +368,6 @@
         document.getElementById('reviewScreen').style.display = 'none';
     }
 
-    // INTERMEDIARIO SEGURO: LLAMA AL ENTRENADOR PASANDO POR GOOGLE SCRIPT
     async function askAiCoach() {
         const text = document.getElementById('sportText').value.trim();
         const aiBox = document.getElementById('aiBox');
@@ -364,7 +380,6 @@
         aiBtn.textContent = "⌛ Reviewing...";
 
         try {
-            // Se envía la petición limpia de credenciales directo a tu Google Web App
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify({
