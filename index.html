@@ -190,7 +190,7 @@
             <div class="word-category">
                 <h4>📊 Comparative Structure</h4>
                 <div class="word-list">
-                    <span class="clickable-word" onclick="insertWord('more ... que')">more... than,</span>
+                    <span class="clickable-word" onclick="insertWord('more ... than')">more... than,</span>
                     <span class="clickable-word" onclick="insertWord('-er than')">-er than,</span>
                     <span class="clickable-word" onclick="insertWord('less ... than')">less... than.</span>
                 </div>
@@ -272,11 +272,8 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC5NzVTjG_FcrtrTzf1zYkkA204-SIT6-pXf2hT_GY4rdk-6AOz2yD7JmQo7UjZeQ8/exec";
-    
-    // CONFIGURACIÓN DE TU CUENTA DE OPENAI
-    const API_URL = "https://api.openai.com/v1/chat/completions";
-    const API_KEY = "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"; // REEMPLAZA ESTO CON TU CLAVE REAL SK-
+    // TU NUEVA URL DE GOOGLE APPS SCRIPT TOTALMENTE OPERATIVA
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwY17Z8_9yiVG_Jn0NKem4oy8dc8NhMd3IGtIgMfGAPwe7jgN8uylfEohcj_59_frhn/exec";
 
     window.onload = function() {
         if (localStorage.getItem("sport_writing_submitted_2026") === "true") {
@@ -285,7 +282,6 @@
         }
     };
 
-    // Función para añadir la palabra de la Word Bank al presionar
     function insertWord(word) {
         const textarea = document.getElementById('sportText');
         textarea.value += (textarea.value.endsWith(' ') || textarea.value === '' ? '' : ' ') + word + ' ';
@@ -305,7 +301,6 @@
         const counter = document.getElementById('liveWordCount');
         const words = text === "" ? 0 : text.split(/\s+/).length;
         
-        // Pusimos meta de 40 palabras mínimo para lograr cubrir los 4 puntos bien
         counter.textContent = `Words: ${words} / 40`;
         if(words >= 40) { counter.classList.add('goal-met'); } 
         else { counter.classList.remove('goal-met'); }
@@ -356,7 +351,7 @@
         document.getElementById('reviewScreen').style.display = 'none';
     }
 
-    // EL ENTRENADOR IA ENFOCADO EN DEPORTES Y ADJETIVOS COMPARATIVOS
+    // INTERMEDIARIO SEGURO: LLAMA AL ENTRENADOR PASANDO POR GOOGLE SCRIPT
     async function askAiCoach() {
         const text = document.getElementById('sportText').value.trim();
         const aiBox = document.getElementById('aiBox');
@@ -368,36 +363,23 @@
         aiBtn.disabled = true;
         aiBtn.textContent = "⌛ Reviewing...";
 
-        const promptSistema = `Eres un motivador "Sports Writing Coach" de Inteligencia Artificial para alumnos chilenos de 5° básico (nivel A2 de inglés).
-        El alumno te enviará un texto describiendo su deporte favorito basado en 4 pasos: Introduction, Description, Comparison y Conclusion.
-        Tu tarea obligatoria es:
-        1. Escribir COMPLETAMENTE EN INGLÉS con estructuras muy básicas (A2), usando muchos emojis deportivos (⚽, 🏆, 🏀, 🎾).
-        2. Validar amigablemente si cumplió con los 4 pasos recomendados.
-        3. Comprobar si usó adjetivos calificativos simples (fast, exciting, fun) y, de forma MUY IMPORTANTE, si usó estructuras comparativas o superlativas (more... than, -er than, the most).
-        4. Si le falta la comparación o los adjetivos, anímalo a agregarlos mediante consejos afectuosos. ¡No le des la frase escrita! Guíalo (ej: "Can you compare football with tennis using 'more exciting than'?").
-        Sé breve, un máximo de 2 a 3 párrafos cortos.`;
-
         try {
-            const response = await fetch(API_URL, {
+            // Se envía la petición limpia de credenciales directo a tu Google Web App
+            const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
-                },
                 body: JSON.stringify({
-                    model: "gpt-4o-mini",
-                    messages: [
-                        { role: "system", content: promptSistema },
-                        { role: "user", content: `This is my text about my favourite sport:\n"${text}"` }
-                    ],
-                    temperature: 0.6
+                    action: "getAIFeedback",
+                    text: text
                 })
             });
 
-            if (!response.ok) throw new Error("API error");
-
             const data = await response.json();
-            aiContent.innerText = data.choices[0].message.content;
+            
+            if (data.feedback) {
+                aiContent.innerText = data.feedback;
+            } else {
+                throw new Error("No feedback data");
+            }
 
         } catch (error) {
             console.error(error);
