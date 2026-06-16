@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRITING III - Physical Descriptions A2</title>
+    <title>🏆 MY FAVOURITE SPORT - Writing Task</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -13,6 +13,8 @@
             --error: #ef4444;
             --wordbank-bg: #eef2ff;
             --review-light: #fffcf0;
+            --ai-blue: #0288d1;
+            --ai-light: #e1f5fe;
         }
 
         body {
@@ -65,34 +67,42 @@
 
         .word-category h4 { margin: 0 0 5px 0; color: var(--oxford-blue); font-size: 0.9rem; text-transform: uppercase; }
         .word-list { font-size: 0.85rem; color: #475569; line-height: 1.4; }
-        .highlight-word { color: #2563eb; font-weight: bold; }
-
-        /* Tareas */
-        .task-section {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;
+        .clickable-word { 
+            color: #2563eb; 
+            font-weight: bold; 
+            cursor: pointer; 
+            display: inline-block;
+            margin-right: 5px;
         }
+        .clickable-word:hover { text-decoration: underline; color: var(--oxford-gold); }
 
-        .task-card {
-            background: #f8fafc; padding: 20px; border-radius: 15px;
-            border: 1px solid #e2e8f0;
+        /* Estructura de pasos */
+        .structure-guide {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
         }
-
-        .image-container img {
-            width: 100%; height: 350px; object-fit: cover;
-            border-radius: 12px; border: 4px solid var(--oxford-gold);
-            margin-bottom: 10px;
-            background-color: #eee;
+        .step-card {
+            background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;
         }
+        .step-num {
+            background: var(--oxford-blue); color: white; display: inline-block;
+            width: 24px; height: 24px; text-align: center; line-height: 24px;
+            border-radius: 50%; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px;
+        }
+        .step-card h5 { margin: 0 0 5px 0; color: var(--oxford-blue); font-size: 0.95rem; }
+        .step-card p { margin: 0; font-size: 0.85rem; color: #64748b; line-height: 1.3; }
 
         textarea {
-            width: 100%; height: 160px; padding: 12px;
-            border: 2px solid #e2e8f0; border-radius: 10px;
-            font-size: 1rem; resize: none; box-sizing: border-box;
-            font-family: inherit; outline: none;
+            width: 100%; height: 250px; padding: 15px;
+            border: 2px solid #e2e8f0; border-radius: 12px;
+            font-size: 1.1rem; resize: none; box-sizing: border-box;
+            font-family: inherit; outline: none; line-height: 1.5;
         }
 
         .live-counter {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: bold;
             text-align: right;
             margin-top: 5px;
@@ -110,6 +120,8 @@
         .btn-send { background: var(--success); color: white; margin-top: 15px; }
         .btn-edit { background: #eee; color: #555; width: auto; margin-right: 10px; }
         .btn-download { background: #64748b; color: white; width: auto; margin-right: 10px; }
+        .btn-ai { background: var(--ai-blue); color: white; width: auto; margin-right: 10px; }
+        .btn-clear { background: #ef4444; color: white; width: auto; }
 
         #reviewScreen, #finalMessage, #alreadySentMessage { display: none; }
 
@@ -118,28 +130,22 @@
             border-left: 6px solid var(--oxford-gold); margin-bottom: 20px;
         }
 
-        .feedback-guide {
-            background: #eef2ff; padding: 15px; border-radius: 10px;
-            margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #d1dbff;
+        .ai-feedback-box {
+            background: var(--ai-light); padding: 20px; border-radius: 15px;
+            border-left: 6px solid var(--ai-blue); margin-bottom: 20px;
         }
 
         .review-text {
-            background: white; padding: 15px; border-radius: 8px;
-            border: 1px solid #e2e8f0; margin: 10px 0 5px 0;
-            white-space: pre-wrap; font-style: italic; color: #333;
+            background: white; padding: 20px; border-radius: 12px;
+            border: 1px solid #e2e8f0; margin: 15px 0;
+            white-space: pre-wrap; font-style: italic; color: #333; font-size: 1.1rem; line-height: 1.5;
         }
 
-        /* Contenedor de acciones centrado */
         .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;
         }
 
         @media (max-width: 750px) {
-            .task-section { grid-template-columns: 1fr; }
             .student-inputs { flex-direction: column; }
             .action-buttons button { width: 100%; margin-right: 0; margin-top: 5px; }
         }
@@ -155,7 +161,7 @@
     </div>
 
     <div class="card" id="writingScreen">
-        <div class="header-logo">WRITING III: PHYSICAL DESCRIPTIONS</div>
+        <div class="header-logo">🏆 MY FAVOURITE SPORT: WRITING TASK</div>
 
         <div class="student-inputs">
             <select id="sClass" onchange="updateStudentList()">
@@ -171,48 +177,68 @@
 
         <div class="word-bank">
             <div class="word-category">
-                <h4>🔗 Connectors</h4>
+                <h4>⚽ Normal Adjectives</h4>
                 <div class="word-list">
-                    <span class="highlight-word">And, but, also.</span><br>
-                    <span class="highlight-word">In this picture...</span><br>
-                    <span class="highlight-word">He/She is wearing...</span>
+                    <span class="clickable-word" onclick="insertWord('fast')">fast,</span>
+                    <span class="clickable-word" onclick="insertWord('exciting')">exciting,</span>
+                    <span class="clickable-word" onclick="insertWord('popular')">popular,</span>
+                    <span class="clickable-word" onclick="insertWord('fun')">fun,</span>
+                    <span class="clickable-word" onclick="insertWord('healthy')">healthy,</span>
+                    <span class="clickable-word" onclick="insertWord('difficult')">difficult.</span>
                 </div>
             </div>
             <div class="word-category">
-                <h4>💇‍♂️ Hair & Eyes</h4>
-                <div class="word-list">Short, long, curly, wavy, dark, blonde, blue, green.</div>
+                <h4>📊 Comparative Structure</h4>
+                <div class="word-list">
+                    <span class="clickable-word" onclick="insertWord('more ... que')">more... than,</span>
+                    <span class="clickable-word" onclick="insertWord('-er than')">-er than,</span>
+                    <span class="clickable-word" onclick="insertWord('less ... than')">less... than.</span>
+                </div>
             </div>
             <div class="word-category">
-                <h4>✨ Features</h4>
-                <div class="word-list">Mustache, glasses, headband, denim jacket, smiling, happy.</div>
-            </div>
-            <div class="word-category">
-                <h4>📏 Body</h4>
-                <div class="word-list">Strong, tall, slim, short, muscles, young.</div>
+                <h4>🥇 Superlative Structure</h4>
+                <div class="word-list">
+                    <span class="clickable-word" onclick="insertWord('the most')">the most...,</span>
+                    <span class="clickable-word" onclick="insertWord('the best')">the best,</span>
+                    <span class="clickable-word" onclick="insertWord('the fastest')">the fastest.</span>
+                </div>
             </div>
         </div>
 
-        <div class="task-section">
-            <div class="task-card">
-                <h3 style="text-align: center; color: var(--oxford-blue);">Task 1: Describe Him</h3>
-                <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/describir-hombre-en-ingles.webp" alt="Man with mustache">
-                </div>
-                <textarea id="textMan" oninput="updateLiveCount('textMan', 'liveMan')" placeholder="Example: In this picture..."></textarea>
-                <div id="liveMan" class="live-counter">Words: 0 / 25</div>
+        <h3 style="color: var(--oxford-blue); margin-top: 0;">🎯 How to organise your writing:</h3>
+        <div class="structure-guide">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h5>Introduction</h5>
+                <p>Name your favourite sport and say why you like it.</p>
             </div>
-
-            <div class="task-card">
-                <h3 style="text-align: center; color: var(--oxford-blue);">Task 2: Describe Her</h3>
-                <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/61b74b7b5f66bf311c9250ac_happy-young-woman-on-a-yellow-background-SBI-317641691_1_l8qfut.jpeg" alt="Woman with yellow glasses">
-                </div>
-                <textarea id="textWoman" oninput="updateLiveCount('textWoman', 'liveWoman')" placeholder="Example: This is a young woman..."></textarea>
-                <div id="liveWoman" class="live-counter">Words: 0 / 25</div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h5>Description</h5>
+                <p>Describe the sport using basic adjectives.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h5>Comparison</h5>
+                <p>Compare it to another sport using comparative/superlative adjectives.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">4</div>
+                <h5>Conclusion</h5>
+                <p>Write a final sentence about why it is special to you.</p>
             </div>
         </div>
 
-        <button class="btn-review" onclick="showReview()">🔍 Review My Work</button>
+        <p><strong>💡 Tip:</strong> Start with <em>"My favourite sport is..."</em> or <em>"I love... because..."</em></p>
+        
+        <textarea id="sportText" oninput="updateLiveCount()" placeholder="1. Introduction: My favourite sport is...&#10;2. Description: It is very fast and...&#10;3. Comparison: I think it is more exciting than...&#10;4. Conclusion: This sport is special to me because..."></textarea>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; margin-bottom: 20px;">
+            <button class="btn-clear" onclick="clearText()">🗑️ Clear All</button>
+            <div id="liveWordCount" class="live-counter">Words: 0 / 40</div>
+        </div>
+
+        <button class="btn-review" onclick="showReview()">🔍 Preview My Text</button>
     </div>
 
     <div class="card" id="reviewScreen">
@@ -221,22 +247,17 @@
             <strong>Student:</strong> <span id="revName"></span> | <strong>Class:</strong> <span id="revClass"></span>
         </div>
 
-        <div class="feedback-guide">
-            <h4 style="margin-top:0; color: var(--oxford-blue);">📝 A2 Self-Check:</h4>
-            <ul style="margin-bottom:0;">
-                <li>Did you use <strong>connectors</strong> (and, but, also)?</li>
-                <li>Is your text clear and easy to read?</li>
-            </ul>
+        <div class="ai-feedback-box" id="aiBox" style="display: none;">
+            <h4 style="margin-top:0; color: var(--ai-blue); display: flex; align-items: center; gap: 8px;">🤖 Coach Feedback:</h4>
+            <p id="aiFeedbackContent" style="margin: 0; white-space: pre-wrap; font-size: 0.95rem; color: #1e293b;"></p>
         </div>
 
-        <p><strong>Description 1 (Him):</strong></p>
-        <div class="review-text" id="revMan"></div>
-
-        <p><strong>Description 2 (Her):</strong></p>
-        <div class="review-text" id="revWoman"></div>
+        <p><strong>Your Writing Piece:</strong></p>
+        <div class="review-text" id="revSportText"></div>
 
         <div class="action-buttons">
             <button class="btn-edit" onclick="goBackAndEdit()">✏️ Edit</button>
+            <button class="btn-ai" id="aiBtn" onclick="askAiCoach()">🤖 Ask Coach IA</button>
             <button class="btn-download" onclick="downloadBackup()">💾 Download TXT</button>
             <button class="btn-send" id="sendBtn" onclick="sendTask()">🚀 Send to Teacher</button>
         </div>
@@ -252,20 +273,41 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC5NzVTjG_FcrtrTzf1zYkkA204-SIT6-pXf2hT_GY4rdk-6AOz2yD7JmQo7UjZeQ8/exec";
+    
+    // CONFIGURACIÓN DE TU CUENTA DE OPENAI
+    const API_URL = "https://api.openai.com/v1/chat/completions";
+    const API_KEY = "TU_API_KEY_DE_OPENAI_AQUÍ"; // REEMPLAZA ESTO CON TU CLAVE REAL SK-
 
     window.onload = function() {
-        if (localStorage.getItem("writing_submitted_2026") === "true") {
+        if (localStorage.getItem("sport_writing_submitted_2026") === "true") {
             document.getElementById('writingScreen').style.display = 'none';
             document.getElementById('alreadySentMessage').style.display = 'block';
         }
     };
 
-    function updateLiveCount(textId, counterId) {
-        const text = document.getElementById(textId).value.trim();
-        const counter = document.getElementById(counterId);
+    // Función para añadir la palabra de la Word Bank al presionar
+    function insertWord(word) {
+        const textarea = document.getElementById('sportText');
+        textarea.value += (textarea.value.endsWith(' ') || textarea.value === '' ? '' : ' ') + word + ' ';
+        updateLiveCount();
+        textarea.focus();
+    }
+
+    function clearText() {
+        if(confirm("Are you sure you want to clear your text?")) {
+            document.getElementById('sportText').value = "";
+            updateLiveCount();
+        }
+    }
+
+    function updateLiveCount() {
+        const text = document.getElementById('sportText').value.trim();
+        const counter = document.getElementById('liveWordCount');
         const words = text === "" ? 0 : text.split(/\s+/).length;
-        counter.textContent = `Words: ${words} / 25`;
-        if(words >= 25) { counter.classList.add('goal-met'); } 
+        
+        // Pusimos meta de 40 palabras mínimo para lograr cubrir los 4 puntos bien
+        counter.textContent = `Words: ${words} / 40`;
+        if(words >= 40) { counter.classList.add('goal-met'); } 
         else { counter.classList.remove('goal-met'); }
     }
 
@@ -292,19 +334,18 @@
 
     function showReview() {
         const name = document.getElementById('sName').value;
-        const textMan = document.getElementById('textMan').value.trim();
-        const textWoman = document.getElementById('textWoman').value.trim();
-        
-        const wordsMan = textMan === "" ? 0 : textMan.split(/\s+/).length;
-        const wordsWoman = textWoman === "" ? 0 : textWoman.split(/\s+/).length;
+        const text = document.getElementById('sportText').value.trim();
+        const words = text === "" ? 0 : text.split(/\s+/).length;
 
-        if(!name || wordsMan < 5 || wordsWoman < 5) {
-            return alert("Your descriptions are too short or student name is missing. Please review!");
+        if(!name || words < 10) {
+            return alert("Your text is too short or student name is missing. Please check before previewing!");
         }
+        
         document.getElementById('revName').textContent = name;
         document.getElementById('revClass').textContent = document.getElementById('sClass').value;
-        document.getElementById('revMan').textContent = textMan;
-        document.getElementById('revWoman').textContent = textWoman;
+        document.getElementById('revSportText').textContent = text;
+        
+        document.getElementById('aiBox').style.display = 'none';
         document.getElementById('writingScreen').style.display = 'none';
         document.getElementById('reviewScreen').style.display = 'block';
         window.scrollTo(0,0);
@@ -315,24 +356,71 @@
         document.getElementById('reviewScreen').style.display = 'none';
     }
 
+    // EL ENTRENADOR IA ENFOCADO EN DEPORTES Y ADJETIVOS COMPARATIVOS
+    async function askAiCoach() {
+        const text = document.getElementById('sportText').value.trim();
+        const aiBox = document.getElementById('aiBox');
+        const aiContent = document.getElementById('aiFeedbackContent');
+        const aiBtn = document.getElementById('aiBtn');
+
+        aiBox.style.display = 'block';
+        aiContent.innerHTML = "<em>The Coach is reading your sports profile... Wait! 🏃‍♂️💨</em>";
+        aiBtn.disabled = true;
+        aiBtn.textContent = "⌛ Reviewing...";
+
+        const promptSistema = `Eres un motivador "Sports Writing Coach" de Inteligencia Artificial para alumnos chilenos de 5° básico (nivel A2 de inglés).
+        El alumno te enviará un texto describiendo su deporte favorito basado en 4 pasos: Introduction, Description, Comparison y Conclusion.
+        Tu tarea obligatoria es:
+        1. Escribir COMPLETAMENTE EN INGLÉS con estructuras muy básicas (A2), usando muchos emojis deportivos (⚽, 🏆, 🏀, 🎾).
+        2. Validar amigablemente si cumplió con los 4 pasos recomendados.
+        3. Comprobar si usó adjetivos calificativos simples (fast, exciting, fun) y, de forma MUY IMPORTANTE, si usó estructuras comparativas o superlativas (more... than, -er than, the most).
+        4. Si le falta la comparación o los adjetivos, anímalo a agregarlos mediante consejos afectuosos. ¡No le des la frase escrita! Guíalo (ej: "Can you compare football with tennis using 'more exciting than'?").
+        Sé breve, un máximo de 2 a 3 párrafos cortos.`;
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-4o-mini",
+                    messages: [
+                        { role: "system", content: promptSistema },
+                        { role: "user", content: `This is my text about my favourite sport:\n"${text}"` }
+                    ],
+                    temperature: 0.6
+                })
+            });
+
+            if (!response.ok) throw new Error("API error");
+
+            const data = await response.json();
+            aiContent.innerText = data.choices[0].message.content;
+
+        } catch (error) {
+            console.error(error);
+            aiContent.innerHTML = "<span style='color: var(--error);'>⚠️ Coach is resting on the bench. Try again or download your file to submit!</span>";
+        } finally {
+            aiBtn.disabled = false;
+            aiBtn.textContent = "🤖 Ask Coach IA";
+        }
+    }
+
     function downloadBackup() {
         const sClass = document.getElementById('sClass').value;
         const sName = document.getElementById('sName').value;
-        const textMan = document.getElementById('textMan').value;
-        const textWoman = document.getElementById('textWoman').value;
+        const text = document.getElementById('sportText').value;
 
         if (!sClass || !sName) {
             return alert("Please select your class and name before downloading.");
         }
 
-        // Limpiar el nombre para evitar problemas con tildes/espacios en el nombre de archivo del sistema operativo
         const sanitizedName = sName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, "_");
-        const filename = `WRITING3_${sClass}_${sanitizedName}.txt`;
-        
-        // Contenido estructurado del archivo de texto
-        const content = `STUDENT: ${sName}\nCLASS: ${sClass}\n\n[MAN]:\n${textMan}\n\n[WOMAN]:\n${textWoman}`;
+        const filename = `SPORT_WRITING_${sClass}_${sanitizedName}.txt`;
+        const content = `STUDENT: ${sName}\nCLASS: ${sClass}\n\n[MY FAVOURITE SPORT]:\n${text}`;
 
-        // El prefijo \ufeff fuerza codificación UTF-8 con BOM para que Windows Bloc de Notas lea bien la 'Ñ' y las tildes
         const blob = new Blob(["\ufeff" + content], { type: "text/plain;charset=utf-8" });
         const link = document.createElement("a");
         
@@ -348,12 +436,12 @@
         const btn = document.getElementById('sendBtn');
         btn.disabled = true; btn.textContent = "⌛ Sending...";
         const payload = {
-            filename: `WRITING3_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
-            content: `STUDENT: ${document.getElementById('sName').value}\nCLASS: ${document.getElementById('sClass').value}\n\n[MAN]: ${document.getElementById('textMan').value}\n\n[WOMAN]: ${document.getElementById('textWoman').value}`
+            filename: `SPORT_WRITING_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
+            content: `STUDENT: ${document.getElementById('sName').value}\nCLASS: ${document.getElementById('sClass').value}\n\n[TEXT]: ${document.getElementById('sportText').value}`
         };
         try {
             await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            localStorage.setItem("writing_submitted_2026", "true");
+            localStorage.setItem("sport_writing_submitted_2026", "true");
             document.getElementById('reviewScreen').style.display = 'none';
             document.getElementById('finalMessage').style.display = 'block';
         } catch (e) { 
