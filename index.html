@@ -1,450 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏆 MY FAVOURITE SPORT - Writing Task</title>
-    <style>
-        :root {
-            --oxford-blue: #002147;
-            --oxford-gold: #F39200;
-            --soft-bg: #f4f7f9;
-            --success: #10b981;
-            --error: #ef4444;
-            --wordbank-bg: #eef2ff;
-            --review-light: #fffcf0;
-            --ai-blue: #0288d1;
-            --ai-light: #e1f5fe;
-        }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--soft-bg);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
+    <title>Unit 3 Homework | Harmonize 1</title>
 
-        .container { max-width: 950px; width: 100%; }
+    <link rel="stylesheet" href="css/style.css">
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border-top: 8px solid var(--oxford-blue);
-        }
-
-        .header-logo {
-            font-weight: bold;
-            color: var(--oxford-blue);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .student-inputs { display: flex; gap: 15px; margin-bottom: 20px; }
-
-        select {
-            flex: 1; padding: 12px; border-radius: 10px;
-            border: 2px solid #e2e8f0; font-size: 1rem; outline: none;
-        }
-
-        /* Word Bank */
-        .word-bank {
-            background: var(--wordbank-bg);
-            border: 2px dashed var(--oxford-blue);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .word-category h4 { margin: 0 0 5px 0; color: var(--oxford-blue); font-size: 0.9rem; text-transform: uppercase; }
-        .word-list { font-size: 0.85rem; color: #475569; line-height: 1.4; }
-        .clickable-word { 
-            color: #2563eb; 
-            font-weight: bold; 
-            cursor: pointer; 
-            display: inline-block;
-            margin-right: 5px;
-        }
-        .clickable-word:hover { text-decoration: underline; color: var(--oxford-gold); }
-
-        /* Estructura de pasos */
-        .structure-guide {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .step-card {
-            background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;
-        }
-        .step-num {
-            background: var(--oxford-blue); color: white; display: inline-block;
-            width: 24px; height: 24px; text-align: center; line-height: 24px;
-            border-radius: 50%; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px;
-        }
-        .step-card h5 { margin: 0 0 5px 0; color: var(--oxford-blue); font-size: 0.95rem; }
-        .step-card p { margin: 0; font-size: 0.85rem; color: #64748b; line-height: 1.3; }
-
-        textarea {
-            width: 100%; height: 250px; padding: 15px;
-            border: 2px solid #e2e8f0; border-radius: 12px;
-            font-size: 1.1rem; resize: none; box-sizing: border-box;
-            font-family: inherit; outline: none; line-height: 1.5;
-        }
-
-        .live-counter {
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-align: right;
-            margin-top: 5px;
-            color: var(--error);
-        }
-        .live-counter.goal-met { color: var(--success); }
-
-        button {
-            padding: 15px; border-radius: 12px; border: none;
-            font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%;
-            transition: 0.3s;
-        }
-
-        .btn-review { background: var(--oxford-gold); color: white; }
-        .btn-send { background: var(--success); color: white; margin-top: 15px; }
-        .btn-edit { background: #eee; color: #555; width: auto; margin-right: 10px; }
-        .btn-download { background: #64748b; color: white; width: auto; margin-right: 10px; }
-        .btn-ai { background: var(--ai-blue); color: white; width: auto; margin-right: 10px; }
-        .btn-clear { background: #ef4444; color: white; width: auto; }
-
-        #reviewScreen, #finalMessage, #alreadySentMessage { display: none; }
-
-        .review-box {
-            background: var(--review-light); padding: 20px; border-radius: 15px;
-            border-left: 6px solid var(--oxford-gold); margin-bottom: 20px;
-        }
-
-        .ai-feedback-box {
-            background: var(--ai-light); padding: 20px; border-radius: 15px;
-            border-left: 6px solid var(--ai-blue); margin-bottom: 20px;
-        }
-
-        .feedback-guide {
-            background: #f0fdf4; padding: 15px; border-radius: 12px;
-            margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #bbf7d0;
-        }
-        .feedback-guide h4 { margin-top: 0; color: #166534; }
-        .feedback-guide ul { margin: 0; padding-left: 20px; color: #14532d; line-height: 1.6; }
-
-        .review-text {
-            background: white; padding: 20px; border-radius: 12px;
-            border: 1px solid #e2e8f0; margin: 15px 0;
-            white-space: pre-wrap; font-style: italic; color: #333; font-size: 1.1rem; line-height: 1.5;
-        }
-
-        .action-buttons {
-            display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;
-        }
-
-        @media (max-width: 750px) {
-            .student-inputs { flex-direction: column; }
-            .action-buttons button { width: 100%; margin-right: 0; margin-top: 5px; }
-        }
-    </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="card" id="alreadySentMessage" style="text-align: center;">
-        <div style="font-size: 5rem;">🚫</div>
-        <h1 style="color: var(--oxford-blue);">Task Already Sent</h1>
-        <p>You have already submitted this assignment. You cannot send it again.</p>
+<header>
+
+    <h1>🏆 Unit 3 Homework</h1>
+
+    <p>My Favourite Sport</p>
+
+</header>
+
+
+<main>
+
+<!-- ===================================== -->
+<!-- STEP 1 -->
+<!-- ===================================== -->
+
+<section class="card">
+
+    <h2>① Choose your favourite sport</h2>
+
+    <div class="sports-grid">
+
+        <div class="sport-card" data-sport="Football">
+
+            <img src="images/football.png" alt="Football">
+
+            <h3>Football</h3>
+
+        </div>
+
+        <div class="sport-card" data-sport="Basketball">
+
+            <img src="images/basketball.png" alt="Basketball">
+
+            <h3>Basketball</h3>
+
+        </div>
+
+        <div class="sport-card" data-sport="Tennis">
+
+            <img src="images/tennis.png" alt="Tennis">
+
+            <h3>Tennis</h3>
+
+        </div>
+
+        <div class="sport-card" data-sport="Volleyball">
+
+            <img src="images/volleyball.png" alt="Volleyball">
+
+            <h3>Volleyball</h3>
+
+        </div>
+
+        <div class="sport-card" data-sport="Swimming">
+
+            <img src="images/swimming.png" alt="Swimming">
+
+            <h3>Swimming</h3>
+
+        </div>
+
     </div>
 
-    <div class="card" id="writingScreen">
-        <div class="header-logo">🏆 MY FAVOURITE SPORT: WRITING TASK</div>
+</section>
 
-        <div class="student-inputs">
-            <select id="sClass" onchange="updateStudentList()">
-                <option value="">-- Select Class --</option>
-                <option value="5thA">5th A</option>
-                <option value="5thB">5th B</option>
-                <option value="5thC">5th C</option>
-            </select>
-            <select id="sName" disabled>
-                <option value="">-- Select Name --</option>
-            </select>
-        </div>
 
-        <div class="word-bank">
-            <div class="word-category">
-                <h4>⚽ Normal Adjectives</h4>
-                <div class="word-list">
-                    <span class="clickable-word" onclick="insertWord('fast')">fast,</span>
-                    <span class="clickable-word" onclick="insertWord('exciting')">exciting,</span>
-                    <span class="clickable-word" onclick="insertWord('popular')">popular,</span>
-                    <span class="clickable-word" onclick="insertWord('fun')">fun,</span>
-                    <span class="clickable-word" onclick="insertWord('healthy')">healthy,</span>
-                    <span class="clickable-word" onclick="insertWord('difficult')">difficult.</span>
-                </div>
-            </div>
-            <div class="word-category">
-                <h4>📊 Comparative Structure</h4>
-                <div class="word-list">
-                    <span class="clickable-word" onclick="insertWord('more ... than')">more... than,</span>
-                    <span class="clickable-word" onclick="insertWord('-er than')">-er than,</span>
-                    <span class="clickable-word" onclick="insertWord('less ... than')">less... than.</span>
-                </div>
-            </div>
-            <div class="word-category">
-                <h4>🥇 Superlative Structure</h4>
-                <div class="word-list">
-                    <span class="clickable-word" onclick="insertWord('the most')">the most...,</span>
-                    <span class="clickable-word" onclick="insertWord('the best')">the best,</span>
-                    <span class="clickable-word" onclick="insertWord('the fastest')">the fastest.</span>
-                </div>
-            </div>
-        </div>
+<!-- ===================================== -->
+<!-- STEP 2 -->
+<!-- ===================================== -->
 
-        <h3 style="color: var(--oxford-blue); margin-top: 0;">🎯 How to organise your writing:</h3>
-        <div class="structure-guide">
-            <div class="step-card">
-                <div class="step-num">1</div>
-                <h5>Introduction</h5>
-                <p>Name your favourite sport and say why you like it.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-num">2</div>
-                <h5>Description</h5>
-                <p>Describe the sport using basic adjectives.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-num">3</div>
-                <h5>Comparison</h5>
-                <p>Compare it to another sport using comparative/superlative adjectives.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-num">4</div>
-                <h5>Conclusion</h5>
-                <p>Write a final sentence about why it is special to you.</p>
-            </div>
-        </div>
+<section class="card">
 
-        <p><strong>💡 Tip:</strong> Start with <em>"My favourite sport is..."</em> or <em>"I love... because..."</em></p>
-        
-        <textarea id="sportText" oninput="updateLiveCount()" placeholder="1. Introduction: My favourite sport is...&#10;2. Description: It is very fast and...&#10;3. Comparison: I think it is more exciting than...&#10;4. Conclusion: This sport is special to me because..."></textarea>
-        
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; margin-bottom: 20px;">
-            <button class="btn-clear" onclick="clearText()">🗑️ Clear All</button>
-            <div id="liveWordCount" class="live-counter">Words: 0 / 40</div>
-        </div>
+<h2>② Build your Word Bank</h2>
 
-        <button class="btn-review" onclick="showReview()">🔍 Preview My Text</button>
-    </div>
+<div class="categories">
 
-    <div class="card" id="reviewScreen">
-        <div class="header-logo">CHECK YOUR WORK</div>
-        <div class="review-box">
-            <strong>Student:</strong> <span id="revName"></span> | <strong>Class:</strong> <span id="revClass"></span>
-        </div>
 
-        <div class="feedback-guide">
-            <h4>📋 Checklist - Review your text:</h4>
-            <ul>
-                <li>✅ I use at least 2 verbs.</li>
-                <li>✅ I use at least 2 adjectives.</li>
-                <li>✅ I use 2 connectors.</li>
-                <li>✅ I write in Simple Present.</li>
-            </ul>
-        </div>
+<div class="category">
 
-        <div class="ai-feedback-box" id="aiBox" style="display: none;">
-            <h4 style="margin-top:0; color: var(--ai-blue); display: flex; align-items: center; gap: 8px;">🤖 Coach Feedback:</h4>
-            <p id="aiFeedbackContent" style="margin: 0; white-space: pre-wrap; font-size: 0.95rem; color: #1e293b;"></p>
-        </div>
+<h3>⭐ Adjectives</h3>
 
-        <p><strong>Your Writing Piece:</strong></p>
-        <div class="review-text" id="revSportText"></div>
+<button class="word">exciting</button>
 
-        <div class="action-buttons">
-            <button class="btn-edit" onclick="goBackAndEdit()">✏️ Edit</button>
-            <button class="btn-ai" id="aiBtn" onclick="askAiCoach()">🤖 Ask Coach IA</button>
-            <button class="btn-download" onclick="downloadBackup()">💾 Download TXT</button>
-            <button class="btn-send" id="sendBtn" onclick="sendTask()">🚀 Send to Teacher</button>
-        </div>
-    </div>
+<button class="word">healthy</button>
 
-    <div class="card" id="finalMessage" style="text-align: center;">
-        <div style="font-size: 5rem; color: var(--success);">✔</div>
-        <h1 style="color: var(--oxford-blue);">EXCELLENT WORK!</h1>
-        <p>Your writing task has been successfully sent.</p>
-        <p style="color: #666; font-size: 0.9rem;">Task completed for 2026.</p>
-    </div>
+<button class="word">fast</button>
+
+<button class="word">fun</button>
+
+<button class="word">popular</button>
+
+<button class="word">interesting</button>
+
 </div>
 
-<script>
-    // URL DE TU ÚLTIMA IMPLEMENTACIÓN DE GOOGLE APPS SCRIPT
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLPZ2SRskAZw-nD_aZO6GWRxf1OaCmsDjPIwAKC64R9utsXLWqv3OkX6pLyybYdL0a/exec";
 
-    window.onload = function() {
-        if (localStorage.getItem("sport_writing_submitted_2026") === "true") {
-            document.getElementById('writingScreen').style.display = 'none';
-            document.getElementById('alreadySentMessage').style.display = 'block';
-        }
-    };
+<div class="category">
 
-    function insertWord(word) {
-        const textarea = document.getElementById('sportText');
-        textarea.value += (textarea.value.endsWith(' ') || textarea.value === '' ? '' : ' ') + word + ' ';
-        updateLiveCount();
-        textarea.focus();
-    }
+<h3>🎒 Equipment</h3>
 
-    function clearText() {
-        if(confirm("Are you sure you want to clear your text?")) {
-            document.getElementById('sportText').value = "";
-            updateLiveCount();
-        }
-    }
+<button class="word">ball</button>
 
-    function updateLiveCount() {
-        const text = document.getElementById('sportText').value.trim();
-        const counter = document.getElementById('liveWordCount');
-        const words = text === "" ? 0 : text.split(/\s+/).length;
-        
-        counter.textContent = `Words: ${words} / 40`;
-        if(words >= 40) { counter.classList.add('goal-met'); } 
-        else { counter.classList.remove('goal-met'); }
-    }
+<button class="word">racket</button>
 
-    const students = {
-        "5thA": ["ARANEDA SEPÚLVEDA MATÍAS SANTIAGO", "AYALA OLIVARES MÁXIMO ALONSO", "CAMPUSANO PÉREZ ISIDORA MONTSERRAT", "CANESSA VEGA BERNARDO FRANCISCO", "CARRASCO RAMÍREZ JAVIERA PAZ", "CHAMORRO SAN MARTÍN SEBASTIÁN FRANCISCO", "CORREA LEAL SANTIAGO LEÓN", "CUKIC LUENGO BRUNO EDUARDO", "ESPINOZA OLIVARES LUCAS ALEJANDRO", "FERNÁNDEZ ESCOBAR MARTÍN FELIPE", "FERNÁNDEZ RODRIGUEZ FERNANDA NICOLE", "GARNIER VELÁSQUEZ MAXIMILIANO LORENZO", "GARZON MACUER AMANDA SOFÍA", "GONZÁLEZ ARRIAGADA SOFÍA ISIDORA", "IBARRA BARRAZA DOMINGA PAZ", "JARAMILLO CANALES JULIETA ANTONIA", "JIMÉNEZ MONSALVES FERNANDA PAZ", "MACUADA GONZÁLEZ TOMÁS ALONSO", "MEZA MISTO FRANCISCA IGNACIA", "MUÑOZ OLIVOS SOFÍA ANTONIA", "NECULQUEO MURA JAVIER MATIAS", "OSORIO MUÑOZ LUCIANO", "PARRA ALIAGA AGUSTÍN CLEMENTE LEÓN", "RIQUELME CONTRERAS JULIETA ISADORA", "SALINAS SAAVEDRA EMILIANO IGNACIO", "SÁNCHEZ MORAGA NICOLÁS ARTURO", "SEISDEDOS CARVAJAL ANGELA GUADALUPE", "SEREY VALDES RENATO CLEMENTE", "SEYMOUR REYES TRINIDAD EMILIA", "VALLEJOS NAVARRO JOSEFA AGUSTINA", "VELOSO MUÑOZ ISABELLA AMARAL", "VERGARA FUENZALIDA JOAQUÍN IGNACIO", "VERGARA MARÍN DAMIÁN ALONSO", "VINES ZÚÑIGA DAMIÁN ALBERTO", "ZURITA BUSTOS ANTONIA INÉS"],
-        "5thB": ["ACUÑA ALARCÓN DOMINGO", "AGUILAR MENARES VALENTÍN IGNACIO", "ALLENDE GARAY ALFONSO ERNESTO", "ARA CAMPUSANO VALENTINA ANTONIA", "ARAYA ESCALONA JOSE MANUEL", "ÁVILA RAMÍREZ AMANDA", "BOBADILLA PONCE VICENTE IGNACIO", "CASTILLO CARVAJAL TRINIDAD PAZ", "CONTRERAS RAMOS AMANDA BELÉN", "DÍAZ CORTÉS NICOLÁS IGNACIO", "DURÁN FREZ FLORENCIA CATALINA", "FARÍAS VALENZUELA REBECCA ESPERANZA", "GARRIDO DONOSO AMANDA", "GÓMEZ BURGOS ROSARIO BELÉN", "GONZÁLEZ ESPINOZA ARANTZA MICAELA", "HOLZMANN CÁRCAMO ANTONIA IGNACIA", "LAZO DÍAZ RENATA ANDREA", "LÓPEZ OJEDA AGUSTÍN SANTIAGO", "MENESES MADARIAGA GASPAR BAUTISTA", "MORAGA MARTINEZ VICTORIA ESPERANZA", "MOSQUEIRA VALDIVIA CAMILO ANDRÉS", "ORMEÑO LACHR PEDRO JOAQUIN", "OSORNO ARRIAGADA AMANDA MARIANNE", "PARRA PIMENTEL CONSUELO EMILIA", "REYES MARCHANT EMILIANO BAUTISTA", "RIVERA SAAVEDRA DIEGO ANDRÉS", "ROMÁN PEÑA GUSTAVO EMILIO", "RUIZ GARCÍA SANTIAGO ALONSO", "RUZ REYES MATÍAS ALEJANDRO", "SARRIA ASTUDILLO EVA MAGDALENA", "TRUJILLO BURGOS SANTIAGO ALONSO", "URQUEJO CHACANO RAFAELA", "VALENZUELA GONZÁLEZ JOSÉ MIGUEL", "VÁSQUEZ TAPIA SOFÍA ANTONIA", "VILLANUEVA SIMON GASPAR ALBERTO", "ZAMORA TORRES FACUNDO AGUSTÍN"],
-        "5thC": ["ABURTO FUENTEALBA IGNACIO ANDRÉS", "ÁGUILA MOSCOSO LÍA ISABELLA", "ALBORNOZ IBARRA LAURA ALEJANDRA", "ALEGRÍA RAMÍREZ JAVIERA IGNACIA", "APIOLAZA SCACCHI DIEGO ALEJANDRO", "BRANTE CATAFAU RAFAEL BAUTISTA", "BRUNAUD GALLARDO MARIA FERNANDA", "CADIU MELLA MAXIMILIANO IGNACIO", "CANTO MORAGA FELIPE", "CASTILLO MORALES VICENTE SALVADOR", "CASTRO CEPEDA RENATO", "CAVIERES PASMIÑO ROSARIO ISABEL", "CEPEDA PEDREROS CAMILO IGNACIO", "CONTRERAS CÁRDENAS JOSEFA IGNACIA", "CERDA OSSES RAFAEL ORLANDO", "CORTÉS JARA EMMA VALENTINA", "FECCI DUARTE GASPAR OLIVER", "FERNÁNDEZ SALINAS RAFAELA ANHAIS", "GARCÍA ANDRADE MAITE CELESTE", "GONZÁLEZ HERNÁNDEZ AGUSTINA PAZ", "GONZÁLEZ YÁÑEZ LUCIANO ALONSO", "HENRÍQUEZ LÓPEZ ANTONIO MIGUEL", "MORALES MORIS BERNARDO LEON", "MUÑOZ LEÓN MATILDE IGNACIA", "PAVEZ KNUST PEDRO ENRIQUE", "PIZARRO PAREDES ALONSO GABRIEL", "QUINTEROS MONDIGLIO LEONOR IGNACIA", "QUIROZ PÉREZ RAMIRO AGUSTÍN", "REYES BICHARA FRANCO FARID", "REYES CAÑAS JOAQUÍN ALEJANDRO", "RIQUELME ZÚÑIGA ISIDORA PAZ", "SALAZAR BELMAR AGUSTÍN ALONSO", "SANTOS ALVAREZ MIA SOPHIA", "TOBAR GONZÁLEZ FLORENCIA AYLIN", "VALENZUELA GONZÁLEZ GABRIEL IGNACIO", "VALLE FUENTES ELISA"]
-    };
+<button class="word">net</button>
 
-    function updateStudentList() {
-        const classSelect = document.getElementById('sClass');
-        const nameSelect = document.getElementById('sName');
-        const selectedClass = classSelect.value;
-        nameSelect.innerHTML = '<option value="">-- Select Name --</option>';
-        if (selectedClass) {
-            students[selectedClass].forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name; opt.textContent = name;
-                nameSelect.appendChild(opt);
-            });
-            nameSelect.disabled = false;
-        } else { nameSelect.disabled = true; }
-    }
+<button class="word">trainers</button>
 
-    function showReview() {
-        const name = document.getElementById('sName').value;
-        const text = document.getElementById('sportText').value.trim();
-        const words = text === "" ? 0 : text.split(/\s+/).length;
+<button class="word">helmet</button>
 
-        if(!name || words < 10) {
-            return alert("Your text is too short or student name is missing. Please check before previewing!");
-        }
-        
-        document.getElementById('revName').textContent = name;
-        document.getElementById('revClass').textContent = document.getElementById('sClass').value;
-        document.getElementById('revSportText').textContent = text;
-        
-        document.getElementById('aiBox').style.display = 'none';
-        document.getElementById('writingScreen').style.display = 'none';
-        document.getElementById('reviewScreen').style.display = 'block';
-        window.scrollTo(0,0);
-    }
+</div>
 
-    function goBackAndEdit() {
-        document.getElementById('writingScreen').style.display = 'block';
-        document.getElementById('reviewScreen').style.display = 'none';
-    }
 
-    async function askAiCoach() {
-        const text = document.getElementById('sportText').value.trim();
-        const aiBox = document.getElementById('aiBox');
-        const aiContent = document.getElementById('aiFeedbackContent');
-        const aiBtn = document.getElementById('aiBtn');
+<div class="category">
 
-        aiBox.style.display = 'block';
-        aiContent.innerHTML = "<em>The Coach is reading your sports profile... Wait! 🏃‍♂️💨</em>";
-        aiBtn.disabled = true;
-        aiBtn.textContent = "⌛ Reviewing...";
+<h3>🔗 Connectors</h3>
 
-        try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    action: "getAIFeedback",
-                    text: text
-                })
-            });
+<button class="word">and</button>
 
-            const data = await response.json();
-            
-            if (data.feedback) {
-                aiContent.innerText = data.feedback;
-            } else {
-                throw new Error("No feedback data");
-            }
+<button class="word">also</button>
 
-        } catch (error) {
-            console.error(error);
-            aiContent.innerHTML = "<span style='color: var(--error);'>⚠️ Coach is resting on the bench. Try again or download your file to submit!</span>";
-        } finally {
-            aiBtn.disabled = false;
-            aiBtn.textContent = "🤖 Ask Coach IA";
-        }
-    }
+<button class="word">in addition</button>
 
-    function downloadBackup() {
-        const sClass = document.getElementById('sClass').value;
-        const sName = document.getElementById('sName').value;
-        const text = document.getElementById('sportText').value;
+<button class="word">moreover</button>
 
-        if (!sClass || !sName) {
-            return alert("Please select your class and name before downloading.");
-        }
+</div>
 
-        const sanitizedName = sName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, "_");
-        const filename = `SPORT_WRITING_${sClass}_${sanitizedName}.txt`;
-        const content = `STUDENT: ${sName}\nCLASS: ${sClass}\n\n[MY FAVOURITE SPORT]:\n${text}`;
+</div>
 
-        const blob = new Blob(["\ufeff" + content], { type: "text/plain;charset=utf-8" });
-        const link = document.createElement("a");
-        
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
+</section>
 
-    async function sendTask() {
-        const btn = document.getElementById('sendBtn');
-        btn.disabled = true; btn.textContent = "⌛ Sending...";
-        const payload = {
-            filename: `SPORT_WRITING_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
-            content: `STUDENT: ${document.getElementById('sName').value}\nCLASS: ${document.getElementById('sClass').value}\n\n[TEXT]: ${document.getElementById('sportText').value}`
-        };
-        try {
-            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            localStorage.setItem("sport_writing_submitted_2026", "true");
-            document.getElementById('reviewScreen').style.display = 'none';
-            document.getElementById('finalMessage').style.display = 'block';
-        } catch (e) { 
-            alert("Error sending. Check connection."); btn.disabled = false; btn.textContent = "🚀 Send to Teacher";
-        }
-    }
-</script>
+
+<!-- ===================================== -->
+<!-- WORD BANK -->
+<!-- ===================================== -->
+
+<section class="card">
+
+<h2>📚 My Word Bank</h2>
+
+<p class="instruction">
+
+Click any word to add it to your writing.
+
+</p>
+
+<div id="wordBank">
+
+</div>
+
+</section>
+
+
+
+<!-- ===================================== -->
+<!-- WRITING -->
+<!-- ===================================== -->
+
+<section class="card">
+
+<h2>③ Write your paragraph</h2>
+
+<p>
+
+Remember:
+
+</p>
+
+<ul>
+
+<li>Write 40–50 words.</li>
+
+<li>Use at least 2 adjectives.</li>
+
+<li>Use at least 2 connectors.</li>
+
+<li>Use Unit 3 vocabulary.</li>
+
+</ul>
+
+<textarea
+
+id="writing"
+
+placeholder="Write your paragraph here..."
+
+></textarea>
+
+</section>
+
+
+
+<!-- ===================================== -->
+<!-- LIVE CHECK -->
+<!-- ===================================== -->
+
+<section class="card">
+
+<h2>✔ Progress</h2>
+
+<div class="progress-item">
+
+<span>Words</span>
+
+<span id="wordCounter">0 / 40</span>
+
+</div>
+
+<div class="progress-item">
+
+<span>Adjectives</span>
+
+<span id="adjCounter">0 / 2</span>
+
+</div>
+
+<div class="progress-item">
+
+<span>Connectors</span>
+
+<span id="connectorCounter">0 / 2</span>
+
+</div>
+
+</section>
+
+
+
+<!-- ===================================== -->
+<!-- PREVIEW -->
+<!-- ===================================== -->
+
+<section class="card">
+
+<h2>👀 Preview</h2>
+
+<div id="preview">
+
+Your writing will appear here...
+
+</div>
+
+</section>
+
+
+
+<!-- ===================================== -->
+<!-- BUTTONS -->
+<!-- ===================================== -->
+
+<section class="buttons">
+
+<button id="reviewButton">
+
+Review
+
+</button>
+
+<button id="sendButton">
+
+Send to Teacher
+
+</button>
+
+</section>
+
+
+</main>
+
+
+
+<footer>
+
+<p>
+
+Harmonize 1 • Unit 3 • Homework
+
+</p>
+
+</footer>
+
+
+
+<script src="js/app.js"></script>
+
 </body>
+
 </html>
